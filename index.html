@@ -239,7 +239,7 @@
             <p style="margin-bottom: 1.5rem;">ボットを利用開始するためには、あなたご自身のジョブカンのログイン情報をあらかじめ自動化システムへ紐付けておく必要があります。</p>
 
             <ol class="step-list">
-                <li>ボットのLINEトークルームを開き、適当なメッセージ（例: <code>あ</code>）を送信します。</li>
+                <li>ボットのLINEトークルームを開き、<strong>「設定」</strong> または <strong>「初期設定」</strong> とメッセージを送信します。</li>
                 <li>ボットから<strong>「ジョブカン連携が完了していません。以下のURLから初期設定を行ってください。」</strong>という返信とともに、専用の登録URLが送られてきます。</li>
                 <li>そのURLをタップして登録画面を開きます。</li>
                 <li>以下の情報を入力し、「保存」ボタンを押してください。
@@ -261,23 +261,26 @@
             トークルームに決められたフォーマットでメッセージを送ると、数秒後にボットがジョブカンへアクセスし、自動で処理を行ってくれます。</p>
 
         <div class="card">
-            <h3 style="color: #1e293b; margin-bottom: 1rem; font-size: 1.2rem;">① 基本の打刻 (当日の時間を入力する場合)</h3>
-            <p>今日の出勤時間と退勤時間を打刻・修正したい場合は、<code>打刻</code> と書き、スペースを空けて時間を入力します。</p>
+            <h3 style="color: #1e293b; margin-bottom: 1rem; font-size: 1.2rem;">① 基本の打刻 (当日の定時で入力する場合)</h3>
+            <p>今日の出勤時間と退勤時間を定時（ジョブカン上で設定されているシフト時間）で記録したい場合は、シンプルに <code>打刻</code> とだけ送信します。</p>
 
             <div class="command-box">
                 <strong>💬 送信例:</strong>
-                打刻 0900-1800<br>
-                <span style="font-size: 0.9rem; color: #64748b; font-family: 'Noto Sans JP';">または</span><br>
-                打刻 09:00-18:00
+                打刻<br>
+                <span
+                    style="font-size: 0.9rem; color: #64748b; font-family: 'Noto Sans JP';">※時間が指定されなかった場合、ボットが自動で本日のシフト情報を取得して入力を代行します。</span>
             </div>
 
             <hr style="border: none; border-top: 1px solid var(--border-color); margin: 2rem 0;">
 
-            <h3 style="color: #1e293b; margin-bottom: 1rem; font-size: 1.2rem;">② 日付を指定して打刻 (過去の分を入力する場合)</h3>
-            <p>昨日や一昨日の打刻を忘れていた場合などは、日付（8桁の数字）を指定して打刻することができます。</p>
+            <h3 style="color: #1e293b; margin-bottom: 1rem; font-size: 1.2rem;">② 時間や日付を指定して打刻 (残業や過去の分を入力する場合)</h3>
+            <p>残業をした場合や、昨日や一昨日の打刻を忘れていた場合などは、時間や日付を指定して正確に打刻することができます。</p>
 
             <div class="command-box">
                 <strong>💬 送信例:</strong>
+                打刻 0900-1900<br>
+                <span style="font-size: 0.9rem; color: #64748b; font-family: 'Noto Sans JP';">（本日の 9:00〜19:00
+                    として打刻）</span><br><br>
                 打刻 20260301 0900-1800<br>
                 <span style="font-size: 0.9rem; color: #64748b; font-family: 'Noto Sans JP';">（2026年3月1日の 9:00〜18:00
                     として打刻）</span>
@@ -292,15 +295,24 @@
         <h2 class="section-title">🔔 3. 便利な機能</h2>
         <div class="card">
             <div class="feature-item">
-                <h4>⏱ 自動休憩・残業計算</h4>
-                <p>あなたが初期設定で登録した「休憩時間」を自動で控除しジョブカンに登録します。また、定時以降の時間枠で申請した場合、残業理由（残務処理のため）とともに自動で残業申請も行われます。</p>
+                <h4>⏱ 自動休憩・残業申請</h4>
+                <p>あなたが初期設定で登録した「休憩時間」を自動で控除しジョブカンに登録します。さらに、打刻した退勤時間がシフトの定時を超過していた場合、自動で「残務処理のため」という理由とともに残業申請を代行します。
+                </p>
+            </div>
+
+            <hr style="border: none; border-top: 1px dashed var(--border-color); margin: 1.5rem 0;">
+
+            <div class="feature-item">
+                <h4>🚨 未打刻の通知（夜間自動チェック）</h4>
+                <p>毎日の退勤時間以降に、ボットが自動で本日の打刻状況をチェックします。もし平日のシフト枠が存在しているのに打刻忘れがある場合のみ、LINEへお知らせの通知をお届けします。</p>
             </div>
 
             <hr style="border: none; border-top: 1px dashed var(--border-color); margin: 1.5rem 0;">
 
             <div class="feature-item" style="margin-bottom: 0;">
-                <h4>🚨 打刻忘れ通知</h4>
-                <p>平日の朝10時になっても打刻が行われていない場合は、ボットから「本日の打刻が行われていません」とお知らせのメッセージが届きます。通勤電車の中や出先からサクッと打刻コマンドを送信してください。</p>
+                <h4>🏖️ 休日の自動申請</h4>
+                <p>ボットの夜間チェックの際、過去の日付でシフトが空欄（休日）のまま未申請となっている日を見つけると、ボットがあなたに代わってジョブカン上で自動的に「申請」ボタンを押下し、処理を完了させます。面倒な月末の申請作業をぐっと減らします。
+                </p>
             </div>
         </div>
 
@@ -313,7 +325,8 @@
                 </li>
                 <li style="margin-top: 1rem;"><strong>処理時間について</strong><br>
                     コマンドを送信してから「受け付けました」の返信があった後、実際にジョブカンへ記録されるまでには、ボットが裏側でブラウザを立ち上げて画面を自動操作するため
-                    <strong>5秒〜10秒程度</strong> の時間がかかります。</li>
+                    <strong>5秒〜10秒程度</strong> の時間がかかります。
+                </li>
             </ul>
         </div>
 
