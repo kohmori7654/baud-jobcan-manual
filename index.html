@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 ジョブカン自動化ボット 利用マニュアル</title>
+    <meta name="description" content="LINEからジョブカンに自動打刻するボットの利用マニュアルです。">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #06C755;
+            /* LINE Green */
+            --primary-dark: #05b34c;
+            --bg-color: #f8fafc;
+            --text-main: #334155;
+            --text-light: #64748b;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --accent-red: #ef4444;
+            --accent-blue: #3b82f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .header {
+            background-color: var(--card-bg);
+            border-bottom: 2px solid var(--primary-color);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, rgba(6, 199, 85, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%);
+            padding: 2.5rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--text-light);
+            font-size: 1.05rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+            color: #1e293b;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .step-list {
+            list-style: none;
+            counter-reset: my-awesome-counter;
+        }
+
+        .step-list li {
+            position: relative;
+            padding-left: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-list li::before {
+            counter-increment: my-awesome-counter;
+            content: counter(my-awesome-counter);
+            position: absolute;
+            left: 0;
+            top: 2px;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .important-badge {
+            display: inline-block;
+            background-color: #fee2e2;
+            color: var(--accent-red);
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 0.3rem 0.8rem;
+            border-radius: 99px;
+            margin-bottom: 1rem;
+        }
+
+        .command-box {
+            background-color: #f1f5f9;
+            border-left: 4px solid var(--primary-color);
+            padding: 1.2rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1rem 0;
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: #0f172a;
+        }
+
+        .command-box strong {
+            display: block;
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-item h4 {
+            font-size: 1.1rem;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .alert-box {
+            background-color: #fffbeb;
+            border: 1px solid #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 1.2rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .alert-box ul {
+            padding-left: 1.5rem;
+        }
+
+        .alert-box li {
+            margin-bottom: 0.8rem;
+        }
+
+        code {
+            background-color: #e2e8f0;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #ef4444;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="header-container">
+            <span style="font-size: 1.8rem;">🤖</span>
+            <h1>ジョブカン自動化ボット 利用マニュアル</h1>
+        </div>
+    </header>
+
+    <div class="hero">
+        <p>このLINEボットは、毎日の面倒な「ジョブカン（勤怠管理）」へのログインや打刻、残業申請を、LINEのトークルームから短いメッセージを送るだけで自動で代行してくれるシステムです。</p>
+    </div>
+
+    <div class="container">
+
+        <!-- 初期設定 -->
+        <h2 class="section-title">🚀 1. 最初に行うこと (初期設定)</h2>
+        <div class="card">
+            <span class="important-badge">※この登録は初回のみ必要です</span>
+            <p style="margin-bottom: 1.5rem;">ボットを利用開始するためには、あなたご自身のジョブカンのログイン情報をあらかじめ自動化システムへ紐付けておく必要があります。</p>
+
+            <ol class="step-list">
+                <li>ボットのLINEトークルームを開き、適当なメッセージ（例: <code>あ</code>）を送信します。</li>
+                <li>ボットから<strong>「ジョブカン連携が完了していません。以下のURLから初期設定を行ってください。」</strong>という返信とともに、専用の登録URLが送られてきます。</li>
+                <li>そのURLをタップして登録画面を開きます。</li>
+                <li>以下の情報を入力し、「保存」ボタンを押してください。
+                    <ul style="margin-top: 0.8rem; margin-left: 1.5rem; list-style-type: disc;">
+                        <li><strong>ジョブカンのログインメールアドレス</strong></li>
+                        <li><strong>ジョブカンのログインパスワード</strong></li>
+                        <li style="margin-top: 0.3rem;"><strong>勤務形態</strong>:<br>普段の働き方を指定します。</li>
+                        <li style="margin-top: 0.3rem;"><strong>休憩時間</strong>:<br>あなたの部署のルールに従った時間（例: <code>01:00</code>
+                            や <code>00:45</code>）を入力します。ボットが自動控除する際に使われます。</li>
+                    </ul>
+                </li>
+                <li>登録完了画面が出たら、左上の「×」ボタンでLINEのトークルームに戻ります。これで準備完了です！🎉</li>
+            </ol>
+        </div>
+
+        <!-- 毎日の使い方 -->
+        <h2 class="section-title">📱 2. 毎日の使い方 (コマンド一覧)</h2>
+        <p style="margin-bottom: 1rem; color: var(--text-light);">
+            トークルームに決められたフォーマットでメッセージを送ると、数秒後にボットがジョブカンへアクセスし、自動で処理を行ってくれます。</p>
+
+        <div class="card">
+            <h3 style="color: #1e293b; margin-bottom: 1rem; font-size: 1.2rem;">① 基本の打刻 (当日の時間を入力する場合)</h3>
+            <p>今日の出勤時間と退勤時間を打刻・修正したい場合は、<code>打刻</code> と書き、スペースを空けて時間を入力します。</p>
+
+            <div class="command-box">
+                <strong>💬 送信例:</strong>
+                打刻 0900-1800<br>
+                <span style="font-size: 0.9rem; color: #64748b; font-family: 'Noto Sans JP';">または</span><br>
+                打刻 09:00-18:00
+            </div>
+
+            <hr style="border: none; border-top: 1px solid var(--border-color); margin: 2rem 0;">
+
+            <h3 style="color: #1e293b; margin-bottom: 1rem; font-size: 1.2rem;">② 日付を指定して打刻 (過去の分を入力する場合)</h3>
+            <p>昨日や一昨日の打刻を忘れていた場合などは、日付（8桁の数字）を指定して打刻することができます。</p>
+
+            <div class="command-box">
+                <strong>💬 送信例:</strong>
+                打刻 20260301 0900-1800<br>
+                <span style="font-size: 0.9rem; color: #64748b; font-family: 'Noto Sans JP';">（2026年3月1日の 9:00〜18:00
+                    として打刻）</span>
+            </div>
+
+            <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 1rem;">
+                *(※全角文字 <code>打刻　０９００−１８００</code> で送ってしまっても、ボットが気を利かせて半角に直して処理してくれます)*
+            </p>
+        </div>
+
+        <!-- 便利な機能 -->
+        <h2 class="section-title">🔔 3. 便利な機能</h2>
+        <div class="card">
+            <div class="feature-item">
+                <h4>⏱ 自動休憩・残業計算</h4>
+                <p>あなたが初期設定で登録した「休憩時間」を自動で控除しジョブカンに登録します。また、定時以降の時間枠で申請した場合、残業理由（残務処理のため）とともに自動で残業申請も行われます。</p>
+            </div>
+
+            <hr style="border: none; border-top: 1px dashed var(--border-color); margin: 1.5rem 0;">
+
+            <div class="feature-item" style="margin-bottom: 0;">
+                <h4>🚨 打刻忘れ通知</h4>
+                <p>平日の朝10時になっても打刻が行われていない場合は、ボットから「本日の打刻が行われていません」とお知らせのメッセージが届きます。通勤電車の中や出先からサクッと打刻コマンドを送信してください。</p>
+            </div>
+        </div>
+
+        <!-- 注意点 -->
+        <h2 class="section-title">⚠️ 4. ご利用上の注意点</h2>
+        <div class="alert-box">
+            <ul>
+                <li><strong>パスワードの変更について</strong><br>
+                    もしジョブカン本体のログインパスワードを変更した場合は、再度ボットの初期設定URLを開き、新しいパスワードで上書き登録を行ってください。（古いパスワードのままだとボットがログイン・打刻できず、エラーが返ってきます）
+                </li>
+                <li style="margin-top: 1rem;"><strong>処理時間について</strong><br>
+                    コマンドを送信してから「受け付けました」の返信があった後、実際にジョブカンへ記録されるまでには、ボットが裏側でブラウザを立ち上げて画面を自動操作するため
+                    <strong>5秒〜10秒程度</strong> の時間がかかります。</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        &copy; 2026 Jobcan Automation Bot. All rights reserved.
+    </footer>
+
+</body>
+
+</html>
